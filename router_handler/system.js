@@ -107,7 +107,8 @@ module.exports = {
         const [{total}] = await queryAsync(`SELECT COUNT(*) as total FROM role_list WHERE status=1`)
         const datalist = roleList.map(v => {
             return {    
-                ...v, 
+                id: v.id,
+                status: v.status,
                 roleName: v.role_name, 
                 roleDesc: v.role_desc, 
                 authIds: v.auth_ids, 
@@ -161,6 +162,8 @@ module.exports = {
         const list = await queryAsync(`SELECT * FROM user_list WHERE status=1 LIMIT ${pageSize} OFFSET ${ (pageNum - 1) * pageSize }`)
         const [{total}] = await queryAsync(`SELECT COUNT(*) as total FROM user_list WHERE status=1`)
         const datalist = list.map(v => {
+            v.roleId = v.role_id
+            delete v.role_id
             delete v.password
             return v
         })

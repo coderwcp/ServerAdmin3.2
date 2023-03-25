@@ -20,13 +20,16 @@ module.exports = {
 			const token = jwt.sign({ ...result[0], password: "" }, secretKey, {
 				expiresIn: "2h",
 			});
+			const user_info = result[0]
+			user_info.roleId = user_info.role_id
+			delete user_info.role_id
 			// 返回登陆成功
 			res.send({
 				code: 200,
 				msg: "登陆成功",
 				data: {
 					access_token: "Bearer " + token,
-					user_info: { ...result[0], roleId: result[0].role_id},
+					user_info
 				},
 			});
 		});
